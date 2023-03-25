@@ -21,10 +21,21 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.tusharyaar.boxOfficeTycoon"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "dfcbff97-d2ce-4008-a1ab-863aa74712d3"
+      }
+    },
+    "owner": "tusharyaar"
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-2693343007492724~2611311690",
+    "ios_app_id": "ca-app-pub-2693343007492724~2611311690"
   }
 }

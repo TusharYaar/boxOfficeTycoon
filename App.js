@@ -1,20 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect } from "react";
+import { useInterstitialAd, TestIds } from "react-native-google-mobile-ads";
+import { View, Button } from "react-native";
+export default function App({ navigation }) {
+  const { isLoaded, isClosed, load, show, reward, isEarnedReward, error } = useInterstitialAd(TestIds.REWARDED);
 
-export default function App() {
+  console.log({ isLoaded, reward, isEarnedReward, error });
+
+  useEffect(() => {
+    // Start loading the interstitial straight away
+    load();
+  }, [load]);
+
+  useEffect(() => {
+    if (isClosed) {
+      // Action after the ad is closed
+      // navigation.navigate("NextScreen");
+    }
+  }, [isClosed, navigation]);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View>
+      <Button
+        title="Navigate to next screen"
+        onPress={() => {
+          if (isLoaded) {
+            show();
+          } else {
+            load();
+            // No advert ready to show yet
+            // navigation.navigate("NextScreen");
+          }
+        }}
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
