@@ -9,6 +9,7 @@ export type Movie = {
     min: number;
     duration: number;
   };
+  price: number;
 };
 
 export type Location = {
