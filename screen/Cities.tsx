@@ -6,6 +6,7 @@ import { HomeStackScreens } from "../navigators/StackNavigators";
 type Props = NativeStackScreenProps<HomeStackScreens, "Cities">;
 
 import LOCATIONS from "../data/locations";
+import CityItem from "../components/CityItem";
 
 const Cities = ({ navigation, route }: Props) => {
   useEffect(() => {
@@ -22,8 +23,12 @@ const Cities = ({ navigation, route }: Props) => {
 
   return (
     <View>
-      {cities.map((area) => (
-        <Text>{area.name}</Text>
+      {cities.map((city) => (
+        <CityItem
+          city={city}
+          key={city.name}
+          onPress={() => navigation.navigate("BoxOffices", { city: city.name, country: route.params.country })}
+        />
       ))}
     </View>
   );

@@ -12,14 +12,14 @@ const Header = ({ navigation, route, options, back }: NativeStackHeaderProps) =>
   return (
     <View>
       <View style={styles.container}>
-        <Text category="h1">${cash}</Text>
-        <View style={{ flexDirection: "column", alignItems: "flex-end" }}>
-          <Text>{format(new Date(time * 1000), "d MMM, yyyy")}</Text>
-          <Text>{format(new Date(time * 1000), "h:m:s a")}</Text>
-          {__DEV__ && <Text>Seconds {time}</Text>}
+        <Text category="h3">${cash}</Text>
+        <View style={{ flexDirection: "column", alignItems: "flex-end", paddingHorizontal: 5 }}>
+          <Text category="h6">{format(new Date(time * 1000), "dd MMM, yyyy")}</Text>
+          <Text category="s1">{format(new Date(time * 1000), "hh:mm:ss a")}</Text>
+          {/* {__DEV__ && <Text>Seconds {time}</Text>} */}
         </View>
       </View>
-      <Text>{title}</Text>
+      {/* <Text>{title}</Text> */}
     </View>
   );
 };

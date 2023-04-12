@@ -34,12 +34,15 @@ const MovieItem = ({ movie, currentTime, onPress }: Props) => {
   }, [movie, cash, currentTime, ownedMovies]);
 
   return (
-    <Card onPress={onPress}>
+    <Card onPress={onPress} style={{ flex: 1, padding: 0, margin: 0 }}>
       <Text category="h6">{movie.title}</Text>
       <Text>Runs for {movie.runtime} mins</Text>
       <Text>{customFormat(new Date(currentTime * 1000), new Date(movie.release * 1000), "PP")}</Text>
+      <Text>Rating {movie.popularity.max / 10}</Text>
       {!ownedMovies.includes(movie.id) && (
-        <Button onPress={() => buyMovie(movie.id)} disabled={isPurchaseDisable}>{`$${movie.price}`}</Button>
+        <Button onPress={() => buyMovie(movie.id)} disabled={isPurchaseDisable} size="small">
+          {isPurchaseDisable ? "Unreleased" : `Buy for $${movie.price}`}
+        </Button>
       )}
     </Card>
   );

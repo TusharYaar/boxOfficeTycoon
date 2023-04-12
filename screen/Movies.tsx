@@ -8,11 +8,12 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 type Props = NativeStackScreenProps<HomeStackScreens, "Movies">;
 
-const Movies = ({ route, navigation }: Props) => {
+const Movies = ({ route }: Props) => {
   return (
     <FlatList
       data={MOVIES}
       renderItem={(item) => <MovieItem movie={item.item} currentTime={route.params.currentTime} />}
+      numColumns={2}
     />
   );
 };
