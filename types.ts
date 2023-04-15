@@ -27,7 +27,7 @@ export type Movie = {
 export type BoxOffice = {
   name: string;
   price: number;
-  location: [number, number];
+  // location: [number, number];
 };
 
 export type Country = {
@@ -38,4 +38,13 @@ export type Country = {
 export type City = {
   name: string;
   box_offices: BoxOffice[];
+};
+
+export type Event = {
+  id: string;
+  duration: number;
+  startTime: number;
+  endTime: number;
+  title: string;
+  description: string;
 };

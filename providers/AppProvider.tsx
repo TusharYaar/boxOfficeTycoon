@@ -74,7 +74,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AppContext.Provider value={{ time, cash, buyMovie, ownedMovies, buyLocation, ownedLocations }}>
       {children}
-      {__DEV__ && (
+      {!__DEV__ && (
         <View style={styles.fab}>
           <Button title="Movies" onPress={() => setOwnedMovies([])} />
           <Button title="Time" onPress={() => setTime((prev) => prev + 1000000)} />

@@ -32,7 +32,10 @@
         "projectId": "dfcbff97-d2ce-4008-a1ab-863aa74712d3"
       }
     },
-    "owner": "tusharyaar"
+    "owner": "tusharyaar",
+    "plugins": [
+      "expo-build-properties"
+    ]
   },
   "react-native-google-mobile-ads": {
     "android_app_id": "ca-app-pub-2693343007492724~2611311690",

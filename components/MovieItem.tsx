@@ -7,7 +7,6 @@ import { useApp } from "../providers/AppProvider";
 
 type Props = {
   movie: Movie;
-  currentTime: number;
   onPress?: () => void;
 };
 
@@ -24,20 +23,20 @@ const customFormat = (today: Date, calculate: Date, dateFormat: string) => {
   }
 };
 
-const MovieItem = ({ movie, currentTime, onPress }: Props) => {
-  const { buyMovie, cash, ownedMovies } = useApp();
+const MovieItem = ({ movie, onPress }: Props) => {
+  const { buyMovie, cash, ownedMovies, time } = useApp();
   const isPurchaseDisable = useMemo(() => {
-    if (differenceInCalendarDays(currentTime * 1000, movie.release * 1000) < 0) return true;
+    if (differenceInCalendarDays(time * 1000, movie.release * 1000) < 0) return true;
     if (ownedMovies.includes(movie.id)) return true;
     if (cash - movie.price < 0) return true;
     else return false;
-  }, [movie, cash, currentTime, ownedMovies]);
+  }, [movie, cash, time, ownedMovies]);
 
   return (
     <Card onPress={onPress} style={{ flex: 1, padding: 0, margin: 0 }}>
       <Text category="h6">{movie.title}</Text>
       <Text>Runs for {movie.runtime} mins</Text>
-      <Text>{customFormat(new Date(currentTime * 1000), new Date(movie.release * 1000), "PP")}</Text>
+      <Text>{customFormat(new Date(time * 1000), new Date(movie.release * 1000), "PP")}</Text>
       <Text>Rating {movie.popularity.max / 10}</Text>
       {!ownedMovies.includes(movie.id) && (
         <Button onPress={() => buyMovie(movie.id)} disabled={isPurchaseDisable} size="small">

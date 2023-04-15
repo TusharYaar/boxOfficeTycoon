@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import React from "react";
 import { useApp } from "../providers/AppProvider";
 import { NativeStackHeaderProps } from "@react-navigation/native-stack";
-import { Text } from "@ui-kitten/components";
+import { Button, Icon, Text } from "@ui-kitten/components";
 import { getHeaderTitle } from "@react-navigation/elements";
 import { format } from "date-fns";
 const Header = ({ navigation, route, options, back }: NativeStackHeaderProps) => {
@@ -13,10 +13,15 @@ const Header = ({ navigation, route, options, back }: NativeStackHeaderProps) =>
     <View>
       <View style={styles.container}>
         <Text category="h3">${cash}</Text>
-        <View style={{ flexDirection: "column", alignItems: "flex-end", paddingHorizontal: 5 }}>
-          <Text category="h6">{format(new Date(time * 1000), "dd MMM, yyyy")}</Text>
-          <Text category="s1">{format(new Date(time * 1000), "hh:mm:ss a")}</Text>
-          {/* {__DEV__ && <Text>Seconds {time}</Text>} */}
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "column", alignItems: "flex-end", paddingHorizontal: 5 }}>
+            <Text category="h6">{format(new Date(time * 1000), "dd MMM, yyyy")}</Text>
+            <Text category="s1">{format(new Date(time * 1000), "hh:mm:ss a")}</Text>
+          </View>
+          <Button
+            onPress={() => navigation.navigate("Schedule")}
+            // accessoryLeft={(props) => <Icon {...props} name="calendar-outline" />}
+          />
         </View>
       </View>
       {/* <Text>{title}</Text> */}
