@@ -1,25 +1,28 @@
 import { useContext, createContext, useState, useEffect, useCallback } from "react";
 import { MMKV } from "react-native-mmkv";
-import { DEFAULT_CASH, TIME_UPDATE_FREQUENCY } from "../data/contants";
+import { DEFAULT_CASH, STORAGE, TIME_UPDATE_FREQUENCY } from "../data/contants";
 import MOVIES from "../data/movies";
-
 import { StyleSheet, Button, View } from "react-native";
 import LOCATIONS from "../data/locations";
 
 const storage = new MMKV();
-const _time = storage.getNumber("app.time");
-const _cash = storage.getNumber("app.cash");
+const _time = storage.getNumber(STORAGE.time);
+const _cash = storage.getNumber(STORAGE.cash);
 
-const _ownedMovies = storage.getString("app.ownedMovies");
-const _ownedLocations = storage.getString("app.ownedLocations");
+const _ownedMovies = storage.getString(STORAGE.ownedMovies);
+const _ownedLocations = storage.getString(STORAGE.ownedLocations);
+
+const _globalSchedule = storage.getString(STORAGE.globalSchedule);
 
 const AppContext = createContext({
   time: _time ? _time : 0,
   cash: _cash ? _cash : DEFAULT_CASH,
-  ownedMovies: _ownedMovies ? JSON.parse(_ownedMovies) : [],
-  ownedLocations: _ownedLocations ? JSON.parse(_ownedLocations) : [],
+  ownedMovies: _ownedMovies ? (JSON.parse(_ownedMovies) as string[]) : [],
+  ownedLocations: _ownedLocations ? (JSON.parse(_ownedLocations) as string[]) : [],
+  globalSchedule: _globalSchedule ? (JSON.parse(_globalSchedule) as string[]) : [],
   buyMovie: (id: string) => {},
   buyLocation: (country: string, city: string, office: string) => {},
+  addShow: (id: string) => {},
 });
 
 export const useApp = () => useContext(AppContext);
@@ -30,11 +33,12 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [ownedMovies, setOwnedMovies] = useState(_ownedMovies ? JSON.parse(_ownedMovies) : []);
   const [ownedLocations, setOwnedLocations] = useState(_ownedLocations ? JSON.parse(_ownedLocations) : []);
+  const [globalSchedule, setGlobalSchedule] = useState(_globalSchedule ? JSON.parse(_globalSchedule) : []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setTime((time) => {
-        storage.set("app.time", time + 1);
+        storage.set(STORAGE.time, time + 1);
         return time + 1;
       });
     }, TIME_UPDATE_FREQUENCY);
@@ -43,7 +47,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   const updateCash = useCallback((value: number) => {
     setCash((prev) => {
-      storage.set("app.cash", prev + value);
+      storage.set(STORAGE.cash, prev + value);
       return prev + value;
     });
   }, []);
@@ -53,7 +57,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     if (movie) {
       updateCash(-movie.price);
       setOwnedMovies((prev: string[]) => {
-        storage.set("app.ownedMovies", JSON.stringify([...prev, movie.id]));
+        storage.set(STORAGE.ownedMovies, JSON.stringify([...prev, movie.id]));
         return [...prev, movie.id];
       });
     }
@@ -66,13 +70,19 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const _location = _city.box_offices.find((b) => b.name === office);
     updateCash(-_location.price);
     setOwnedLocations((prev: string[]) => {
-      storage.set("app.ownedLocations", JSON.stringify([...prev, _location.name]));
+      storage.set(STORAGE.ownedLocations, JSON.stringify([...prev, _location.name]));
       return [...prev, _location.name];
     });
   }, []);
 
+  const addShow = useCallback((id: string) => {
+    setGlobalSchedule((prev) => [...prev, id]);
+  }, []);
+
   return (
-    <AppContext.Provider value={{ time, cash, buyMovie, ownedMovies, buyLocation, ownedLocations }}>
+    <AppContext.Provider
+      value={{ time, cash, buyMovie, ownedMovies, buyLocation, ownedLocations, globalSchedule, addShow }}
+    >
       {children}
       {!__DEV__ && (
         <View style={styles.fab}>

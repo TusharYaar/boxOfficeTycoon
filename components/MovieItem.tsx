@@ -1,13 +1,15 @@
-import { StyleSheet } from "react-native";
-import React, { useMemo } from "react";
+import { StyleSheet, View } from "react-native";
+import React from "react";
 import { Movie } from "../types";
-import { Button, Card, Text } from "@ui-kitten/components";
+import { Text } from "@ui-kitten/components";
 import { differenceInCalendarDays, format } from "date-fns";
 import { useApp } from "../providers/AppProvider";
 
+import Card from "./Card";
 type Props = {
   movie: Movie;
   onPress?: () => void;
+  action?: React.ReactNode;
 };
 
 const customFormat = (today: Date, calculate: Date, dateFormat: string) => {
@@ -23,26 +25,21 @@ const customFormat = (today: Date, calculate: Date, dateFormat: string) => {
   }
 };
 
-const MovieItem = ({ movie, onPress }: Props) => {
-  const { buyMovie, cash, ownedMovies, time } = useApp();
-  const isPurchaseDisable = useMemo(() => {
-    if (differenceInCalendarDays(time * 1000, movie.release * 1000) < 0) return true;
-    if (ownedMovies.includes(movie.id)) return true;
-    if (cash - movie.price < 0) return true;
-    else return false;
-  }, [movie, cash, time, ownedMovies]);
+const MovieItem = ({ movie, onPress, action }: Props) => {
+  const { time } = useApp();
 
   return (
-    <Card onPress={onPress} style={{ flex: 1, padding: 0, margin: 0 }}>
-      <Text category="h6">{movie.title}</Text>
-      <Text>Runs for {movie.runtime} mins</Text>
-      <Text>{customFormat(new Date(time * 1000), new Date(movie.release * 1000), "PP")}</Text>
-      <Text>Rating {movie.popularity.max / 10}</Text>
-      {!ownedMovies.includes(movie.id) && (
-        <Button onPress={() => buyMovie(movie.id)} disabled={isPurchaseDisable} size="small">
-          {isPurchaseDisable ? "Unreleased" : `Buy for $${movie.price}`}
-        </Button>
-      )}
+    <Card onPress={onPress} style={{ flex: 1, padding: 4, margin: 4, flexDirection: "row" }}>
+      <View style={{ height: "100%", width: 100, backgroundColor: "green" }} />
+      <View style={{ flex: 1, marginLeft: 4 }}>
+        <Text category="h6">{movie.title}</Text>
+        <Text>
+          {new Date(movie.release * 1000).getFullYear()} {movie.runtime}mins
+        </Text>
+        <Text>{customFormat(new Date(time * 1000), new Date(movie.release * 1000), "PP")}</Text>
+        <Text>Rating {movie.popularity.max / 10}</Text>
+        {!!action && action}
+      </View>
     </Card>
   );
 };

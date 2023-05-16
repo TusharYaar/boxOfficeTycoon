@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, View } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import React, { useMemo } from "react";
 
 import HourBlock from "./HourBlock";
@@ -6,8 +6,9 @@ import EventBlock from "./EventBlock";
 import { HOURS, WORKING_HOURS } from "../../data/contants";
 import DayIndicator from "./DayIndicator";
 import { Event } from "../../types";
+import { useApp } from "../../providers/AppProvider";
 
-type Props = { events: Event[] };
+type Props = { events: Event[]; onScheduleChange: (schedule: string[]) => void };
 
 const HOUR_BLOCK_HEIGHT = 100;
 const MINUTE_HEIGHT = HOUR_BLOCK_HEIGHT / 60;
@@ -35,12 +36,24 @@ const EventCalendar = ({ events }: Props) => {
     <ScrollView style={styles.scrollView}>
       <DayIndicator text="Day Starts" />
       {calendarHours.map((time) => (
-        <HourBlock hour={time.hour} period={time.period} isDisabled={time.isDisabled} />
+        <HourBlock
+          key={`hour=${time.hour}-${time.period}`}
+          hour={time.hour}
+          period={time.period}
+          isDisabled={time.isDisabled}
+        />
       ))}
       <DayIndicator text="Day Ends" />
 
-      {eventItems.map((event) => (
-        <EventBlock text={event.title} x={event.x} y={event.y} width={300} height={event.height} />
+      {eventItems.map((event, index) => (
+        <EventBlock
+          key={`${event}-${index}`}
+          text={event.title}
+          x={event.x}
+          y={event.y}
+          width={300}
+          height={event.height}
+        />
       ))}
     </ScrollView>
   );
