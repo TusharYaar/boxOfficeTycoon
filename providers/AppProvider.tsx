@@ -22,7 +22,7 @@ const AppContext = createContext({
   globalSchedule: _globalSchedule ? (JSON.parse(_globalSchedule) as string[]) : [],
   buyMovie: (id: string) => {},
   buyLocation: (country: string, city: string, office: string) => {},
-  addShow: (id: string) => {},
+  updateGlobalSchedule: (schedule: string[]) => {},
 });
 
 export const useApp = () => useContext(AppContext);
@@ -75,13 +75,14 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     });
   }, []);
 
-  const addShow = useCallback((id: string) => {
-    setGlobalSchedule((prev) => [...prev, id]);
+  const updateGlobalSchedule = useCallback((schedule: string[]) => {
+    setGlobalSchedule(schedule);
+    storage.set(STORAGE.globalSchedule, JSON.stringify(schedule));
   }, []);
 
   return (
     <AppContext.Provider
-      value={{ time, cash, buyMovie, ownedMovies, buyLocation, ownedLocations, globalSchedule, addShow }}
+      value={{ time, cash, buyMovie, ownedMovies, buyLocation, ownedLocations, globalSchedule, updateGlobalSchedule }}
     >
       {children}
       {!__DEV__ && (

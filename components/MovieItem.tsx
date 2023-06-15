@@ -29,7 +29,7 @@ const MovieItem = ({ movie, onPress, action }: Props) => {
   const { time } = useApp();
 
   return (
-    <Card onPress={onPress} style={{ flex: 1, padding: 4, margin: 4, flexDirection: "row" }}>
+    <Card onPress={onPress} style={{ flex: 1, padding: 4, margin: 4, flexDirection: "row", height: 130 }}>
       <View style={{ height: "100%", width: 100, backgroundColor: "green" }} />
       <View style={{ flex: 1, marginLeft: 4 }}>
         <Text category="h6">{movie.title}</Text>

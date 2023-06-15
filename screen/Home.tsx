@@ -9,7 +9,7 @@ import LOCATIONS from "../data/locations";
 type Props = NativeStackScreenProps<HomeStackScreens, "Home">;
 
 const Home = ({ navigation }: Props) => {
-  const { time, ownedLocations, ownedMovies } = useApp();
+  const { time, ownedLocations, ownedMovies, globalSchedule } = useApp();
 
   const allLocations = useMemo(
     () =>
@@ -20,13 +20,13 @@ const Home = ({ navigation }: Props) => {
       ),
     [ownedLocations]
   );
-  // console.log(allLocations);
 
   return (
     <View>
-      <Text>{JSON.stringify(ownedLocations)}</Text>
-      <Text>{JSON.stringify(ownedMovies)}</Text>
-      <Text>{JSON.stringify(allLocations.filter((l) => ownedLocations.includes(l.name)))}</Text>
+      <Text>OwnedLocations: {JSON.stringify(ownedLocations)}</Text>
+      <Text>OwnedMOvies: {JSON.stringify(ownedMovies)}</Text>
+      <Text>Schedule: {JSON.stringify(globalSchedule)}</Text>
+      {/* <Text> {JSON.stringify(allLocations.filter((l) => ownedLocations.includes(l.name)))}</Text> */}
     </View>
   );
 };

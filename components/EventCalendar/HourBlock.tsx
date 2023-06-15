@@ -3,14 +3,14 @@ import { Text } from "@ui-kitten/components";
 
 type Props = {
   hour: number;
-  period: string;
+  label: string;
   isDisabled?: boolean;
 };
 
-const HourBlock = ({ hour, period, isDisabled }: Props) => {
+const HourBlock = ({ hour, label, isDisabled }: Props) => {
   return (
     <View style={[styles.hourBlock, isDisabled ? styles.disabled : null]}>
-      <Text category="s2">{`${hour}:00 ${period}`} </Text>
+      <Text category="s2">{label}</Text>
     </View>
   );
 };

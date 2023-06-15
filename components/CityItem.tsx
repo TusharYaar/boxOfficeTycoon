@@ -13,7 +13,7 @@ const CityItem = ({ city, onPress }: Props) => {
   return (
     <Card onPress={onPress}>
       <Text>{city.name}</Text>
-      <Text>{city.box_offices.length} Box Offices</Text>
+      <Text>{city.box_offices.length} Locations</Text>
     </Card>
   );
 };

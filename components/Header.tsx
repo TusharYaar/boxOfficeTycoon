@@ -5,7 +5,7 @@ import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 import { Text } from "@ui-kitten/components";
 import { getHeaderTitle } from "@react-navigation/elements";
 import { format } from "date-fns";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import IconButton from "./IconButton";
 
 const Header = ({ navigation, route, options, back }: NativeStackHeaderProps) => {
   const { time, cash } = useApp();
@@ -20,7 +20,7 @@ const Header = ({ navigation, route, options, back }: NativeStackHeaderProps) =>
             <Text category="h6">{format(new Date(time * 1000), "dd MMM, yyyy")}</Text>
             <Text category="s1">{format(new Date(time * 1000), "hh:mm:ss a")}</Text>
           </View>
-          <Ionicons name="albums" size={32} onPress={() => navigation.navigate("Schedule")} />
+          <IconButton name="albums" size={32} onPress={() => navigation.navigate("Schedule")} />
         </View>
       </View>
     </View>
